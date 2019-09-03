@@ -14,6 +14,7 @@ const Routes = createAppContainer(createStackNavigator({
     Cart
   },
   {
+   // initialRouteName: 'Home',
     defaultNavigationOptions: navigation => ({
       header: <Header {...navigation} />
     }),

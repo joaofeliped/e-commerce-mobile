@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { Wrapper, Container, Logo, BasketContainer, ItemCount } from './styles';
 
-export default function Header({navigation}) {
+export default function Header({ navigation }) {
   return (
     <Wrapper>
       <Container>
