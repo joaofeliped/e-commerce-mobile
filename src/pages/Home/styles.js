@@ -17,7 +17,6 @@ export const Product = styled.View`
   padding: 10px;
   margin: 15px;
   border-radius: 4px;
-
 `;
 
 export const ProductImage = styled.Image`
@@ -57,7 +56,7 @@ export const ProductAmount = styled.View`
 `;
 
 export const ProductAmountText = styled.Text`
-  color: #FFF;
+  color: #fff;
   margin: 0px 4px 0px 10px;
 `;
 
@@ -66,5 +65,5 @@ export const AddButtonText = styled.Text`
   font-size: 20px;
   text-align: center;
   font-weight: bold;
-  color: #FFF;
+  color: #fff;
 `;

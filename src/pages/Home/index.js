@@ -2,16 +2,25 @@ import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { Container, Product, ProductImage, ProductTitle,
-  ProductPrice, AddButton, AddButtonText, ProductAmount, ProductAmountText } from './styles';
+import {
+  Container,
+  Product,
+  ProductImage,
+  ProductTitle,
+  ProductPrice,
+  AddButton,
+  AddButtonText,
+  ProductAmount,
+  ProductAmountText,
+} from './styles';
 
 import { formatPrice } from '../../util/format';
 import api from '../../services/api';
 
 export default class Home extends Component {
   state = {
-    products: []
-  }
+    products: [],
+  };
 
   componentDidMount() {
     this.getProducts();
@@ -26,7 +35,7 @@ export default class Home extends Component {
     }));
 
     this.setState({ products: data });
-  }
+  };
 
   renderProduct = ({ item }) => {
     return (
@@ -36,14 +45,14 @@ export default class Home extends Component {
         <ProductPrice>{item.priceFormatted}</ProductPrice>
         <AddButton>
           <ProductAmount>
-            <Icon name="add-shopping-cart" color="#FFF" size={24}/>
+            <Icon name="add-shopping-cart" color="#FFF" size={24} />
             <ProductAmountText>0</ProductAmountText>
           </ProductAmount>
           <AddButtonText>Adicionar</AddButtonText>
         </AddButton>
       </Product>
-    )
-  }
+    );
+  };
 
   render() {
     const { products } = this.state;
@@ -60,5 +69,3 @@ export default class Home extends Component {
     );
   }
 }
-
-
