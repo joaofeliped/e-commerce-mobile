@@ -4,7 +4,6 @@ import colors from '../../styles/colors';
 import logo from '../../assets/images/logo.png';
 
 export const Wrapper = styled.SafeAreaView`
-  flex: 0;
   background: ${colors.dark};
   flex-direction: row;
 `;
@@ -14,6 +13,7 @@ export const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
   padding: 20px;
+  padding-bottom: 0px;
 `;
 
 export const Logo = styled.Image.attrs({
@@ -41,7 +41,7 @@ export const ItemCount = styled.Text`
   min-width: 18px;
   min-height: 18px;
   background: ${colors.primary};
-  color: #FFF;
+  color: #fff;
   font-size: 12px;
   padding: 2px;
   overflow: hidden;
