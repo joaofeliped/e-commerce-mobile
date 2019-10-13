@@ -16,23 +16,34 @@ import {
   TotalPrice,
   FinishShopping,
   FinishShoppingText,
+  ProductInfo,
+  ProductDetails,
+  ProductDelete,
+  ProductSubtotal,
+  TotalContainer,
 } from './styles';
 
 export default function Cart() {
   return (
     <Container>
       <CartProducts>
-        <ProductImage
-          source={{
-            uri:
-              'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-          }}
-        />
+        <ProductInfo>
+          <ProductImage
+            source={{
+              uri:
+                'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
+            }}
+          />
 
-        <ProductTitle>Tênis de caminhada</ProductTitle>
-        <ProductPrice>R$129,90</ProductPrice>
+          <ProductDetails>
+            <ProductTitle>Tênis de caminhada</ProductTitle>
+            <ProductPrice>R$129,90</ProductPrice>
+          </ProductDetails>
 
-        <Icon name="delete-forever" color={colors.primary} size={24} />
+          <ProductDelete>
+            <Icon name="delete-forever" color={colors.primary} size={24} />
+          </ProductDelete>
+        </ProductInfo>
 
         <ProductControls>
           <ProductControlButton>
@@ -46,10 +57,14 @@ export default function Cart() {
           <ProductControlButton>
             <Icon name="add-circle-outline" color={colors.primary} size={20} />
           </ProductControlButton>
+
+          <ProductSubtotal>R$129,90</ProductSubtotal>
         </ProductControls>
 
-        <TotalText>TOTAL</TotalText>
-        <TotalPrice>R$129,90</TotalPrice>
+        <TotalContainer>
+          <TotalText>TOTAL</TotalText>
+          <TotalPrice>R$129,90</TotalPrice>
+        </TotalContainer>
 
         <FinishShopping>
           <FinishShoppingText>Finalizar Pedido</FinishShoppingText>

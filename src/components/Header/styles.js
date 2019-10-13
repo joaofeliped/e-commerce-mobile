@@ -11,10 +11,10 @@ export const Wrapper = styled.SafeAreaView`
 export const Container = styled.View`
   flex: 1;
   flex-direction: row;
-  justify-content: space-between;
   padding: 20px;
-  padding-bottom: 0px;
 `;
+
+export const LogoButton = styled.TouchableOpacity``;
 
 export const Logo = styled.Image.attrs({
   source: logo,

@@ -12,8 +12,8 @@ import colors from './styles/colors';
 const Routes = createAppContainer(
   createStackNavigator(
     {
-      Cart,
       Home,
+      Cart,
     },
     {
       // initialRouteName: 'Home',
