@@ -2,10 +2,13 @@ import React from 'react';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { connect } from 'react-redux';
+
 import colors from '../../styles/colors';
 import {
   Container,
   CartProducts,
+  Product,
   ProductImage,
   ProductTitle,
   ProductPrice,
@@ -23,53 +26,68 @@ import {
   TotalContainer,
 } from './styles';
 
-export default function Cart() {
+function Cart({ cart }) {
   return (
     <Container>
-      <CartProducts>
-        <ProductInfo>
-          <ProductImage
-            source={{
-              uri:
-                'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-            }}
-          />
+      <>
+        <CartProducts>
+          {cart.map(product => (
+            <Product key={product.id}>
+              <ProductInfo>
+                <ProductImage source={{ uri: product.image }} />
 
-          <ProductDetails>
-            <ProductTitle>Tênis de caminhada</ProductTitle>
-            <ProductPrice>R$129,90</ProductPrice>
-          </ProductDetails>
+                <ProductDetails>
+                  <ProductTitle>{product.title}</ProductTitle>
+                  <ProductPrice>{product.price}</ProductPrice>
+                </ProductDetails>
 
-          <ProductDelete>
-            <Icon name="delete-forever" color={colors.primary} size={24} />
-          </ProductDelete>
-        </ProductInfo>
+                <ProductDelete>
+                  <Icon
+                    name="delete-forever"
+                    color={colors.primary}
+                    size={24}
+                  />
+                </ProductDelete>
+              </ProductInfo>
 
-        <ProductControls>
-          <ProductControlButton>
-            <Icon
-              name="remove-circle-outline"
-              color={colors.primary}
-              size={20}
-            />
-          </ProductControlButton>
-          <ProductAmount value="1" />
-          <ProductControlButton>
-            <Icon name="add-circle-outline" color={colors.primary} size={20} />
-          </ProductControlButton>
+              <ProductControls>
+                <ProductControlButton>
+                  <Icon
+                    name="remove-circle-outline"
+                    color={colors.primary}
+                    size={20}
+                  />
+                </ProductControlButton>
+                <ProductAmount value="1" />
+                <ProductControlButton>
+                  <Icon
+                    name="add-circle-outline"
+                    color={colors.primary}
+                    size={20}
+                  />
+                </ProductControlButton>
 
-          <ProductSubtotal>R$129,90</ProductSubtotal>
-        </ProductControls>
+                <ProductSubtotal>{product.price}</ProductSubtotal>
+              </ProductControls>
+            </Product>
+          ))}
 
-        <TotalContainer>
-          <TotalText>TOTAL</TotalText>
-          <TotalPrice>R$129,90</TotalPrice>
-        </TotalContainer>
+          <TotalContainer>
+            <TotalText>TOTAL</TotalText>
+            <TotalPrice>R$129,90</TotalPrice>
+          </TotalContainer>
 
-        <FinishShopping>
-          <FinishShoppingText>Finalizar Pedido</FinishShoppingText>
-        </FinishShopping>
-      </CartProducts>
+          <FinishShopping>
+            <FinishShoppingText>Finalizar Pedido</FinishShoppingText>
+          </FinishShopping>
+        </CartProducts>
+      </>
     </Container>
   );
 }
+
+const mapStateToProps = state => ({
+  cart: state.cart,
+});
+
+export default connect(mapStateToProps)(Cart);

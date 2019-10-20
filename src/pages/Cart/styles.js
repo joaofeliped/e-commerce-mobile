@@ -16,6 +16,8 @@ export const CartProducts = styled.View`
   border-radius: 4px;
 `;
 
+export const Product = styled.View``;
+
 export const ProductInfo = styled.View`
   flex-direction: row;
   align-items: center;

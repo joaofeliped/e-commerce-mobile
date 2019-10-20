@@ -41,8 +41,9 @@ class Home extends Component {
   };
 
   handleAddProduct = product => {
-    console.tron.log('chamou');
-    CartActions.addToCart(product);
+    const { dispatch } = this.props;
+
+    dispatch(CartActions.addToCart(product));
   };
 
   renderProduct = ({ item }) => {
