@@ -2,7 +2,11 @@ import React from 'react';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { bindActionCreators } from 'redux';
+
 import { connect } from 'react-redux';
+
+import * as CartActions from '../../store/modules/cart/actions';
 
 import colors from '../../styles/colors';
 import {
@@ -24,63 +28,85 @@ import {
   ProductDelete,
   ProductSubtotal,
   TotalContainer,
+  EmptyCart,
+  EmptyCartText,
+  EmptyCartIcon,
 } from './styles';
 
-function Cart({ cart }) {
+function Cart({ cart, cartSize, removeFromCart, updateAmount }) {
+  decrement = product => {
+    updateAmount(product.id, product.amount - 1);
+  };
+
+  increment = product => {
+    updateAmount(product.id, product.amount + 1);
+  };
+
+  removeProduct = id => {
+    removeFromCart(id);
+  };
+
   return (
     <Container>
       <>
-        <CartProducts>
-          {cart.map(product => (
-            <Product key={product.id}>
-              <ProductInfo>
-                <ProductImage source={{ uri: product.image }} />
+        {cartSize > 0 ? (
+          <CartProducts>
+            {cart.map(product => (
+              <Product key={product.id}>
+                <ProductInfo>
+                  <ProductImage source={{ uri: product.image }} />
 
-                <ProductDetails>
-                  <ProductTitle>{product.title}</ProductTitle>
-                  <ProductPrice>{product.price}</ProductPrice>
-                </ProductDetails>
+                  <ProductDetails>
+                    <ProductTitle>{product.title}</ProductTitle>
+                    <ProductPrice>{product.priceFormatted}</ProductPrice>
+                  </ProductDetails>
 
-                <ProductDelete>
-                  <Icon
-                    name="delete-forever"
-                    color={colors.primary}
-                    size={24}
-                  />
-                </ProductDelete>
-              </ProductInfo>
+                  <ProductDelete onPress={() => removeProduct(product.id)}>
+                    <Icon
+                      name="delete-forever"
+                      color={colors.primary}
+                      size={24}
+                    />
+                  </ProductDelete>
+                </ProductInfo>
 
-              <ProductControls>
-                <ProductControlButton>
-                  <Icon
-                    name="remove-circle-outline"
-                    color={colors.primary}
-                    size={20}
-                  />
-                </ProductControlButton>
-                <ProductAmount value="1" />
-                <ProductControlButton>
-                  <Icon
-                    name="add-circle-outline"
-                    color={colors.primary}
-                    size={20}
-                  />
-                </ProductControlButton>
+                <ProductControls>
+                  <ProductControlButton onPress={() => this.decrement(product)}>
+                    <Icon
+                      name="remove-circle-outline"
+                      color={colors.primary}
+                      size={20}
+                    />
+                  </ProductControlButton>
+                  <ProductAmount value={String(product.amount)} />
+                  <ProductControlButton onPress={() => this.increment(product)}>
+                    <Icon
+                      name="add-circle-outline"
+                      color={colors.primary}
+                      size={20}
+                    />
+                  </ProductControlButton>
 
-                <ProductSubtotal>{product.price}</ProductSubtotal>
-              </ProductControls>
-            </Product>
-          ))}
+                  <ProductSubtotal>{product.priceFormatted}</ProductSubtotal>
+                </ProductControls>
+              </Product>
+            ))}
 
-          <TotalContainer>
-            <TotalText>TOTAL</TotalText>
-            <TotalPrice>R$129,90</TotalPrice>
-          </TotalContainer>
+            <TotalContainer>
+              <TotalText>TOTAL</TotalText>
+              <TotalPrice>R$129,90</TotalPrice>
+            </TotalContainer>
 
-          <FinishShopping>
-            <FinishShoppingText>Finalizar Pedido</FinishShoppingText>
-          </FinishShopping>
-        </CartProducts>
+            <FinishShopping>
+              <FinishShoppingText>Finalizar Pedido</FinishShoppingText>
+            </FinishShopping>
+          </CartProducts>
+        ) : (
+          <EmptyCart>
+            <EmptyCartIcon />
+            <EmptyCartText>Seu carrinho está vazio</EmptyCartText>
+          </EmptyCart>
+        )}
       </>
     </Container>
   );
@@ -88,6 +114,13 @@ function Cart({ cart }) {
 
 const mapStateToProps = state => ({
   cart: state.cart,
+  cartSize: state.cart.length,
 });
 
-export default connect(mapStateToProps)(Cart);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Cart);

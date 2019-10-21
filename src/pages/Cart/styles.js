@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import colors from '../../styles/colors';
 
 export const Container = styled.View`
@@ -99,4 +100,25 @@ export const FinishShoppingText = styled.Text`
   align-self: center;
   font-weight: bold;
   font-size: 14px;
+`;
+
+export const EmptyCart = styled.View`
+  background: #fff;
+
+  margin: 10px;
+  padding: 15px;
+  border-radius: 4px;
+`;
+export const EmptyCartText = styled.Text`
+  align-self: center;
+  font-weight: bold;
+  font-size: 20px;
+`;
+
+export const EmptyCartIcon = styled(Icon).attrs({
+  name: 'remove-shopping-cart',
+  color: colors.primary,
+  size: 50,
+})`
+  align-self: center;
 `;
