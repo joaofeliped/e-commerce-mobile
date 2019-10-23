@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 
 import * as CartActions from '../../store/modules/cart/actions';
 
+import { formatPrice } from '../../util/format';
+
 import colors from '../../styles/colors';
 import {
   Container,
@@ -33,7 +35,7 @@ import {
   EmptyCartIcon,
 } from './styles';
 
-function Cart({ cart, cartSize, removeFromCart, updateAmount }) {
+function Cart({ cart, cartSize, removeFromCart, updateAmount, total }) {
   decrement = product => {
     updateAmount(product.id, product.amount - 1);
   };
@@ -87,14 +89,14 @@ function Cart({ cart, cartSize, removeFromCart, updateAmount }) {
                     />
                   </ProductControlButton>
 
-                  <ProductSubtotal>{product.priceFormatted}</ProductSubtotal>
+                  <ProductSubtotal>{product.subtotal}</ProductSubtotal>
                 </ProductControls>
               </Product>
             ))}
 
             <TotalContainer>
               <TotalText>TOTAL</TotalText>
-              <TotalPrice>R$129,90</TotalPrice>
+              <TotalPrice>{total}</TotalPrice>
             </TotalContainer>
 
             <FinishShopping>
@@ -113,8 +115,16 @@ function Cart({ cart, cartSize, removeFromCart, updateAmount }) {
 }
 
 const mapStateToProps = state => ({
-  cart: state.cart,
+  cart: state.cart.map(product => ({
+    ...product,
+    subtotal: formatPrice(product.price * product.amount),
+  })),
   cartSize: state.cart.length,
+  total: formatPrice(
+    state.cart.reduce((total, product) => {
+      return total + product.price * product.amount;
+    }, 0)
+  ),
 });
 
 const mapDispatchToProps = dispatch =>
