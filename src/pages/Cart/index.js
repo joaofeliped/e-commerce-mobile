@@ -35,17 +35,28 @@ import {
   EmptyCartIcon,
 } from './styles';
 
-function Cart({ cart, cartSize, removeFromCart, updateAmount, total }) {
+function Cart({
+  cart,
+  cartSize,
+  removeFromCart,
+  updateAmountRequest,
+  finishShoppingRequest,
+  total,
+}) {
   decrement = product => {
-    updateAmount(product.id, product.amount - 1);
+    updateAmountRequest(product.id, product.amount - 1);
   };
 
   increment = product => {
-    updateAmount(product.id, product.amount + 1);
+    updateAmountRequest(product.id, product.amount + 1);
   };
 
   removeProduct = id => {
     removeFromCart(id);
+  };
+
+  finishShopping = () => {
+    finishShoppingRequest();
   };
 
   return (
@@ -99,7 +110,7 @@ function Cart({ cart, cartSize, removeFromCart, updateAmount, total }) {
               <TotalPrice>{total}</TotalPrice>
             </TotalContainer>
 
-            <FinishShopping>
+            <FinishShopping onPress={() => finishShoppingRequest()}>
               <FinishShoppingText>Finalizar Pedido</FinishShoppingText>
             </FinishShopping>
           </CartProducts>
