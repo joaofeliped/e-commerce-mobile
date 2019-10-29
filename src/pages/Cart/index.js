@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { bindActionCreators } from 'redux';
 
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import * as CartActions from '../../store/modules/cart/actions';
 
@@ -35,29 +35,41 @@ import {
   EmptyCartIcon,
 } from './styles';
 
-function Cart({
-  cart,
-  cartSize,
-  removeFromCart,
-  updateAmountRequest,
-  finishShoppingRequest,
-  total,
-}) {
-  decrement = product => {
-    updateAmountRequest(product.id, product.amount - 1);
-  };
+export default function Cart() {
+  const cart = useSelector(state =>
+    state.cart.map(product => ({
+      ...product,
+      subtotal: formatPrice(product.price * product.amount),
+    }))
+  );
 
-  increment = product => {
-    updateAmountRequest(product.id, product.amount + 1);
-  };
+  const cartSize = useSelector(state => state.cart.length);
 
-  removeProduct = id => {
-    removeFromCart(id);
-  };
+  const total = useSelector(state =>
+    formatPrice(
+      state.cart.reduce((total, product) => {
+        return total + product.price * product.amount;
+      }, 0)
+    )
+  );
 
-  finishShopping = () => {
-    finishShoppingRequest();
-  };
+  const dispatch = useDispatch();
+
+  function decrement(product) {
+    dispatch(CartActions.updateAmountRequest(product.id, product.amount - 1));
+  }
+
+  function increment(product) {
+    dispatch(CartActions.updateAmountRequest(product.id, product.amount + 1));
+  }
+
+  function removeProduct(id) {
+    dispatch(CartActions.removeFromCart(id));
+  }
+
+  function finishShopping() {
+    dispatch(CartActions.finishShoppingRequest());
+  }
 
   return (
     <Container>
@@ -84,7 +96,7 @@ function Cart({
                 </ProductInfo>
 
                 <ProductControls>
-                  <ProductControlButton onPress={() => this.decrement(product)}>
+                  <ProductControlButton onPress={() => decrement(product)}>
                     <Icon
                       name="remove-circle-outline"
                       color={colors.primary}
@@ -92,7 +104,7 @@ function Cart({
                     />
                   </ProductControlButton>
                   <ProductAmount value={String(product.amount)} />
-                  <ProductControlButton onPress={() => this.increment(product)}>
+                  <ProductControlButton onPress={() => increment(product)}>
                     <Icon
                       name="add-circle-outline"
                       color={colors.primary}
@@ -110,7 +122,7 @@ function Cart({
               <TotalPrice>{total}</TotalPrice>
             </TotalContainer>
 
-            <FinishShopping onPress={() => finishShoppingRequest()}>
+            <FinishShopping onPress={() => finishShopping()}>
               <FinishShoppingText>Finalizar Pedido</FinishShoppingText>
             </FinishShopping>
           </CartProducts>
@@ -124,24 +136,3 @@ function Cart({
     </Container>
   );
 }
-
-const mapStateToProps = state => ({
-  cart: state.cart.map(product => ({
-    ...product,
-    subtotal: formatPrice(product.price * product.amount),
-  })),
-  cartSize: state.cart.length,
-  total: formatPrice(
-    state.cart.reduce((total, product) => {
-      return total + product.price * product.amount;
-    }, 0)
-  ),
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(CartActions, dispatch);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Cart);
